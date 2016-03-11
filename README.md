@@ -3,7 +3,7 @@ Author: Adrian Hausammann
 ## Overview ##
 
 * removes empty "html"-Directories
-* removes all shortcodebugs (<p> around shortcode)
+* removes all shortcodebugs (p-Tags around shortcode)
 
 **how to use**
 
