@@ -71,7 +71,7 @@ func main() {
 			}
 			return nil
 		})
-		//So sortieren, dass der laengste Pfad am Anfang ist (damit auch sicher alle leeren Verzeichnisse geloescht werden)
+		//Sort slice (longest path first)
 		sort.Sort(sort.Reverse(ByLength(fileList)))
 
 		if err != nil {
@@ -88,7 +88,7 @@ func main() {
 					log.Fatalln(err)
 				} else {
 					if len(inputAsString) > 0 {
-						// Datei bearbeiten
+						// search and replace
 						lines := strings.Split(inputAsString, "\n")
 
 						for i, line := range lines {
@@ -100,16 +100,18 @@ func main() {
 							}
 						}
 						output := strings.Join(lines, "\n")
-						err = ioutil.WriteFile(file, []byte(output), 0644)
+						fileInfo, _ := os.Stat(file)
+						mode := fileInfo.Mode()
+						err = ioutil.WriteFile(file, []byte(output), mode)
 						if err != nil {
 							log.Fatalln(err)
 						}
 					} else {
-						// Datei loeschen
+						// Delete empty file
 						os.Remove(file)
 						dirPath := path.Dir(file)
 						checkedDir, _ := IsDirEmpty(dirPath)
-						// falls noetig leeres Verzeichnis loeschen
+						// if necessary delete the empty directory
 						if checkedDir {
 							os.Remove(dirPath)
 						}
